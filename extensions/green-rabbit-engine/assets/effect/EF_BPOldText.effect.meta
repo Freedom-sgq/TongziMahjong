@@ -1,0 +1,18 @@
+{
+  "ver": "1.0.27",
+  "uuid": "f4fd5d06-6b70-4f24-9152-ad6b5f45d72f",
+  "importer": "effect",
+  "compiledShaders": [
+    {
+      "glsl1": {
+        "vert": "\nprecision highp float;\nuniform mat4 cc_matViewProj;\nattribute vec3 a_position;\nattribute vec2 a_uv0;\nvarying vec2 v_uv0;\nvoid main () {\n  v_uv0 = a_uv0;\n  gl_Position = cc_matViewProj * vec4(a_position, 1);\n}",
+        "frag": "\nprecision highp float;\nuniform sampler2D texture;\nuniform float edgeWear;\nuniform float inkNoise;\nvarying vec2 v_uv0;\nfloat strokeDefect(vec2 uv, float alpha) {\n  vec2 coord = uv * 100.0;\n  float defect = 0.0;\n  defect += smoothstep(0.7, 0.9,\n           sin(coord.x * 0.5 + sin(coord.y * 0.3) * 3.0) * 0.5 + 0.5);\n  defect += smoothstep(0.8, 0.95,\n           fract(sin(coord.y * 0.7) * 43758.5453));\n  return min(1.0, defect * edgeWear * alpha);\n}\nfloat inkVariation(vec2 uv) {\n  vec2 iuv = floor(uv * 300.0);\n  float variation = fract(sin(dot(iuv, vec2(12.9898,78.233))) * 43758.5453);\n  return mix(0.8, 1.2, variation) * inkNoise;\n}\nvoid main () {\n  vec4 col = texture2D(texture, v_uv0);\n  float inkVar = inkVariation(v_uv0);\n  col.rgb *= mix(1.0, inkVar, col.a);\n  float defect = strokeDefect(v_uv0, col.a);\n  col.a *= 1.0 - defect;\n  col.rgb *= col.a;\n  gl_FragColor = col;\n}"
+      },
+      "glsl3": {
+        "vert": "\nprecision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\nin vec3 a_position;\nin vec2 a_uv0;\nout vec2 v_uv0;\nvoid main () {\n  v_uv0 = a_uv0;\n  gl_Position = cc_matViewProj * vec4(a_position, 1);\n}",
+        "frag": "\nprecision highp float;\nuniform CCGlobal {\n  mat4 cc_matView;\n  mat4 cc_matViewInv;\n  mat4 cc_matProj;\n  mat4 cc_matProjInv;\n  mat4 cc_matViewProj;\n  mat4 cc_matViewProjInv;\n  vec4 cc_cameraPos;\n  vec4 cc_time;\n  mediump vec4 cc_screenSize;\n  mediump vec4 cc_screenScale;\n};\nuniform sampler2D texture;\nuniform Properties {\n  float edgeWear;\n  float inkNoise;\n};\nin vec2 v_uv0;\nfloat strokeDefect(vec2 uv, float alpha) {\n  vec2 coord = uv * 100.0;\n  float defect = 0.0;\n  defect += smoothstep(0.7, 0.9,\n           sin(coord.x * 0.5 + sin(coord.y * 0.3) * 3.0) * 0.5 + 0.5);\n  defect += smoothstep(0.8, 0.95,\n           fract(sin(coord.y * 0.7) * 43758.5453));\n  return min(1.0, defect * edgeWear * alpha);\n}\nfloat inkVariation(vec2 uv) {\n  vec2 iuv = floor(uv * 300.0);\n  float variation = fract(sin(dot(iuv, vec2(12.9898,78.233))) * 43758.5453);\n  return mix(0.8, 1.2, variation) * inkNoise;\n}\nvoid main () {\n  vec4 col = texture2D(texture, v_uv0);\n  float inkVar = inkVariation(v_uv0);\n  col.rgb *= mix(1.0, inkVar, col.a);\n  float defect = strokeDefect(v_uv0, col.a);\n  col.a *= 1.0 - defect;\n  col.rgb *= col.a;\n  gl_FragColor = col;\n}"
+      }
+    }
+  ],
+  "subMetas": {}
+}

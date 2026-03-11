@@ -1,0 +1,72 @@
+CCEffect %{
+  techniques:
+  - passes:
+    - vert: vs
+      frag: fs
+      blendState:
+        targets:
+        - blend: true
+      rasterizerState:
+        cullMode: none
+      properties:
+        texture: { value: white }
+        begin_color: { value: [0, 0, 0, 0], inspector: { type: color } }
+        end_color: { value: [1, 1, 1, 1], inspector: { type: color } }
+        angle: {value: 0}
+        offset: {value: 0}
+}%
+
+CCProgram vs %{
+  precision highp float;
+
+  #include <cc-global>
+
+  in vec3 a_position;
+  in mediump vec2 a_uv0;
+  in vec4 a_color;
+  out mediump vec2 v_uv0;
+  out vec4 v_color;
+
+  void main () {
+      gl_Position = cc_matViewProj * vec4(a_position, 1);
+      v_uv0 = a_uv0;
+      v_color = a_color;
+  }
+}%
+
+CCProgram fs %{
+
+  precision highp float;
+
+  varying mediump vec2 v_uv0;
+  varying vec4 v_color;
+  uniform sampler2D texture;
+
+  uniform NONSAMPLER {
+    lowp vec4 begin_color;
+    lowp vec4 end_color;
+    float angle;
+    float offset;
+  };
+
+  void main () {
+    vec4 texColor = texture2D(texture, v_uv0);
+    float angle_radians = radians(angle); 
+    float ratio = clamp((v_uv0.y * cos(angle_radians) + v_uv0.x * sin(angle_radians) + offset), 0.0, 1.0);
+    float beginRatio = 1.0 - ratio;
+    float endRatio = ratio;
+
+    vec4 gradientColor = vec4(
+        begin_color.r * beginRatio + end_color.r * endRatio,
+        begin_color.g * beginRatio + end_color.g * endRatio,
+        begin_color.b * beginRatio + end_color.b * endRatio,
+        begin_color.a * beginRatio + end_color.a * endRatio
+    );
+
+    gl_FragColor = vec4(
+        texColor.rgb * gradientColor.rgb * v_color.rgb,
+        texColor.a * gradientColor.a * v_color.a
+    );
+  }
+
+}%
