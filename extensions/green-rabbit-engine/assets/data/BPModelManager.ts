@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "../util/BPLog";
 import { BPLoader } from "../res/BPLoader";
 import { BPMap } from "../struct/BPMap";

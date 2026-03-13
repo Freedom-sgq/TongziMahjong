@@ -1,5 +1,3 @@
-import { BPLog } from "../../util/BPLog";
-import { BPEditor } from "../../util/BPEditor";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPListCellBase } from "./BPListCellBase";
 import { BPComponentBase } from "../BPComponentBase";
@@ -121,20 +119,14 @@ export class BPList extends BPComponentBase {
         if (mode == LayoutMode.Vertical) {
             this._scrollView.vertical = true;
             this._scrollView.horizontal = false;
-
-            BPEditor.refreshInspector(this.node);
         }
         else if (mode == LayoutMode.Horizontal) {
             this._scrollView.vertical = false;
             this._scrollView.horizontal = true;
-
-            BPEditor.refreshInspector(this.node);
         }
         else if (mode == LayoutMode.Grid) {
             this._scrollView.vertical = this.direction == LayoutDirection.Normal;
             this._scrollView.horizontal = this.direction == LayoutDirection.Special;
-
-            BPEditor.refreshInspector(this.node);
         }
     }
 
@@ -161,8 +153,6 @@ export class BPList extends BPComponentBase {
 
         this._scrollView.vertical = this.direction == LayoutDirection.Normal;
         this._scrollView.horizontal = this.direction == LayoutDirection.Special;
-
-        BPEditor.refreshInspector(this.node);
     }
 
     /** 

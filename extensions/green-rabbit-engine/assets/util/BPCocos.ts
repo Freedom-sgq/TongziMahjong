@@ -1,6 +1,5 @@
-/**
- * 
- */
+import * as cc from 'cc';
+
 export namespace BPCocos {
     export class BuiltinBundleName {
         static readonly RESOURCES = (cc.AssetManager.BuiltinBundleName.RESOURCES as unknown as string);

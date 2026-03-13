@@ -90,7 +90,6 @@ export * from "../network/net/BPHttp"
 export * from "../util/BPPolyglot"
 export * from "../util/BPType"
 export * from "../util/BPLang"
-export * from "../util/BPProfiler"
 export * from "../util/BPString"
 export * from "../util/BPTime"
 

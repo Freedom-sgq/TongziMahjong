@@ -1,12 +1,8 @@
+import * as cc from 'cc';
 import { BPComponentBase } from "../BPComponentBase";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
-import { BPEvent } from "../../event/BPEvent";
+import { DEV } from "cc/env";
 
-/**
- * @author Tinker
- * @date
- * @description toggle组封装,参数化变种RadioButton和CheckBox
- */
 @BPDec.ccclass
 export class BPToggleGroup extends BPComponentBase {
     static readonly OnCheckBoxChanged = "OnCheckBoxChanged";
@@ -19,7 +15,7 @@ export class BPToggleGroup extends BPComponentBase {
     private _maxCheckCount: number = 0;
 
     @BPDec.property({
-        tooltip: CC_DEV && "复选数量\n[0]: 退化为RadioButton，只能切换 \n[1,n): CheckBox的复选数量"
+        tooltip: DEV && "复选数量\n[0]: 退化为RadioButton，只能切换 \n[1,n): CheckBox的复选数量"
     })
     public get maxCheckCount() {
         return this._maxCheckCount;
@@ -32,7 +28,7 @@ export class BPToggleGroup extends BPComponentBase {
     private _defaultTabName: string = "";
 
     @BPDec.property({
-        tooltip: CC_DEV && "RadioButton默认check的节点名",
+        tooltip: DEV && "RadioButton默认check的节点名",
         visible() { return this._maxCheckCount == 0 }
     })
     public get defaultTabName() {

@@ -1,6 +1,8 @@
+import * as cc from 'cc';
 import { BPFunc } from "../../util/BPType";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPComponentBase } from "../BPComponentBase";
+import { EDITOR } from "cc/env";
 
 /**
  * 
@@ -21,7 +23,7 @@ export abstract class BPLocalizedBase extends BPComponentBase {
         if (this._key == value) { return; }
         this._key = value;
 
-        if (CC_EDITOR) {
+        if (EDITOR) {
             //this._updateRenderComponentEditor();
         }
         else {

@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date 
- * @description 队列
- */
 export class BPQueue<T> {
     private _queue: Map<number, T>;
     private _back: number;
@@ -35,7 +30,7 @@ export class BPQueue<T> {
      * @description 入队
      */
     public push(element: T): void {
-        if (element != null) {
+        if (element) {
             this._queue.set(this._back, element);
             this._back = this._back + 1;
         }
@@ -44,9 +39,9 @@ export class BPQueue<T> {
     /**
      * @description 出队
      */
-    public front(): T {
+    public front(): T | undefined {
         if (this.isEmpty()) {
-            return null;
+            return undefined;
         }
 
         const item = this._queue.get(this._head);
@@ -60,12 +55,12 @@ export class BPQueue<T> {
     /**
      * @description 查看队头
      */
-    public peek(): T {
+    public peek(): T | undefined {
         if (this.isEmpty()) {
-            return null;
+            return undefined;
         }
 
-        return this._queue[this._head];
+        return this._queue.get(this._head);
     }
 
     /**

@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "../util/BPLog";
 import { BPSingletonBase } from "../struct/BPSingletonBase";
 import { BPResMap } from "./BPResMap";

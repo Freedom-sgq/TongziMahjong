@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPSingletonBase } from "../struct/BPSingletonBase";
 
 /**

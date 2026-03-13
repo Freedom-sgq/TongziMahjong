@@ -1,8 +1,5 @@
-/**
- * @author Tinker
- * @date
- * @description
- */
+import * as cc from 'cc';
+
 export enum LogType {
     None, // 0
     Engine = 1 << 0, //1
@@ -54,18 +51,9 @@ let makeLogPrefix = function (type: LogType) {
     return [title, titleColor];
 }
 
-
-/**
- * ....
- */
 export class BPLog {
     private static _logType: number = LogType.All;
 
-    /**
-     * ....
-     * @param desc
-     * @example
-     */
     public static setType(logType: LogType): void {
         BPLog._logType |= logType;
         this.updateLogBinding();
@@ -81,20 +69,10 @@ export class BPLog {
         this.updateLogBinding();
     }
 
-    /**
-     * ....
-     * @param desc
-     * @example
-     */
     public static timeStart(desc: string = "time"): void {
         console.time(desc);
     }
 
-    /**
-     * ....
-     * @param desc
-     * @example
-     */
     public static timeEnd(desc: string = "time"): void {
         console.time(desc);
     }
@@ -113,43 +91,7 @@ export class BPLog {
         this.error = cc.error.bind(this)
     }
 
-    /**
-     * 
-     * @param logType 
-     * @returns 
-     */
     private static _canLog(logType: LogType): boolean {
         return !!(BPLog._logType & logType);
     }
-
-    /**
-     * 
-     * @param depth 
-     * @returns 
-     */
-    private static _stack(depth: number = 3): string {
-        let result: Array<any> = [];
-
-        let lines: Array<string> = new Error().stack!.split("\n");
-        const begin = 2;
-        lines = lines.splice(begin, depth);
-        lines.forEach((line) => {
-            let tokens = line.trim().split(" ");
-            if (tokens.length > 1) {
-                result.push(tokens[1]);
-            }
-        });
-
-        let ret: string = "";
-        for (let i = 0; i < result.length; ++i) {
-            ret = ret + "[" + result[i] + "]";
-            if (i <= result.length - 1) {
-                ret = ret + "\n";
-            }
-        }
-
-        return ret;
-    }
-
-
 }

@@ -1,9 +1,4 @@
-/**
- * @author Tinker
- * @date
- * @description 统一生命周期接口
- */
-
+import * as cc from 'cc';
 import { BPEvent } from "../event/BPEvent";
 
 export abstract class BPComponentBase extends cc.Component {
@@ -11,7 +6,7 @@ export abstract class BPComponentBase extends cc.Component {
      * @description
      * 在onLoad之前，node-activator调用
      */
-    private __preload(): void {
+    protected __preload(): void {
         this.onPreload();
     };
 

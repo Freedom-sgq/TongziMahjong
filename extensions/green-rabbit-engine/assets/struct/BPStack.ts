@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date 
- * @description 栈
- */
 export class BPStack<T> {
     private _stack: T[] = new Array<T>();
 

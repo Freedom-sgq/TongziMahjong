@@ -1,9 +1,5 @@
 import { BPLog } from "./BPLog";
 
-/**
- * 对象工具
- * @author Tinker
- */
 export class BPObj {
 
     /**

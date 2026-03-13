@@ -1,6 +1,8 @@
+import * as cc from 'cc';
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPOmitFunctionsOptional } from "../../util/BPType";
 import { BPAnimBase } from "./BPAnimBase";
+import { DEV } from 'cc/env';
 
 /**
  * @author Tinker
@@ -9,33 +11,33 @@ import { BPAnimBase } from "./BPAnimBase";
  */
 @BPDec.ccclass
 export abstract class BPTransformBase extends BPAnimBase {
-    @BPDec.property({ tooltip: CC_DEV && '播放次数' })
+    @BPDec.property({ tooltip: DEV && '播放次数' })
     public repeat: number = 1;
 
     @BPDec.property({
-        tooltip: CC_DEV && '播放间隔(秒)',
+        tooltip: DEV && '播放间隔(秒)',
         visible() { return this.repeat == 0 }
     })
     public repeatInterval: number = 0;
 
-    @BPDec.property({ tooltip: CC_DEV && '自动播放' })
+    @BPDec.property({ tooltip: DEV && '自动播放' })
     public playOnLoad: boolean = false;
 
-    @BPDec.property({ tooltip: CC_DEV && '延迟占比', min: 0, max: 0.99 })
+    @BPDec.property({ tooltip: DEV && '延迟占比', min: 0, max: 0.99 })
     public delayRate: number = 0;
 
-    @BPDec.property({ tooltip: CC_DEV && '回弹占比', min: 0, max: 0.99 })
+    @BPDec.property({ tooltip: DEV && '回弹占比', min: 0, max: 0.99 })
     public bounceRate: number = 0;
 
     @BPDec.property({
-        tooltip: CC_DEV && '回弹频率', visible() {
+        tooltip: DEV && '回弹频率', visible() {
             return this.bounceRate > 0;
         }
     })
     public bounceFrequency: number = 0;
 
     @BPDec.property({
-        tooltip: CC_DEV && '回弹阻尼系数', visible() {
+        tooltip: DEV && '回弹阻尼系数', visible() {
             return this.bounceRate > 0;
         }
     })

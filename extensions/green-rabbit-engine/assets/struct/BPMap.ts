@@ -1,9 +1,5 @@
-/**
- * @author Tinker
- * @date
- * @description
- * 
- */
+import * as cc from 'cc';
+
 type KeyType = string | number | symbol;
 export class BPMap<
     T1,

@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "../../util/BPLog";
 import { BPResManager } from "../../res/BPResManager";
 import { BPLang } from "../../util/BPLang";
@@ -5,6 +6,8 @@ import { BPString } from "../../util/BPString";
 import { BPFunc } from "../../util/BPType";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPLocalizedBase } from "./BPLocalizedBase";
+import { EDITOR } from 'cc/env';
+declare let Editor: any;
 
 /**
  * 多语言图片替换，配合编辑器工具使用
@@ -81,32 +84,47 @@ export class BPLocalizedSprite extends BPLocalizedBase {
         }
     }
 
-    /**
-     * @implements BPLocalizedBase
-     */
     protected _updateRenderComponentEditor(onComplete?: BPFunc<[void], void>): void {
-        if (!CC_EDITOR) { return; }
+        if (!EDITOR) { return; }
 
         const url = BPLang.getInstance().getResUrlEditor(this._key);
         let splits = BPString.split(url, ":");
         if (splits.length == 1) {
-            const uuid = Editor.assetdb.remote.urlToUuid("db://assets/" + splits[0]);
-            cc.assetManager.loadAny(uuid, (err, spf: cc.SpriteFrame) => {
-                this.getComponent(cc.Sprite).spriteFrame = spf;
-                onComplete?.();
+            // 使用 Editor.Ipc 发送消息以获取 UUID
+            Editor.Ipc.send('asset-db:query-uuid', `db://assets/${splits[0]}`, (uuid: string) => {
+                if (uuid) {
+                    cc.assetManager.loadAny(uuid, (err, spf: cc.SpriteFrame) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            this.getComponent(cc.Sprite).spriteFrame = spf;
+                            onComplete?.();
+                        }
+                    });
+                } else {
+                    console.error(`UUID not found for URL: ${url}`);
+                }
             });
         }
         else if (splits.length == 2) {
-            const uuid = Editor.assetdb.remote.urlToUuid("db://assets/" + splits[0]);
-            cc.assetManager.loadAny(uuid, (err, altas: cc.SpriteAtlas) => {
-                this.getComponent(cc.Sprite).spriteFrame = altas.getSpriteFrame(splits[1]);
-                onComplete?.();
+            // 使用 Editor.Ipc 发送消息以获取 UUID
+            Editor.Ipc.send('asset-db:query-uuid', `db://assets/${splits[0]}`, (uuid: string) => {
+                if (uuid) {
+                    cc.assetManager.loadAny(uuid, (err, atlas: cc.SpriteAtlas) => {
+                        if (err) {
+                            console.error(err);
+                        } else {
+                            this.getComponent(cc.Sprite).spriteFrame = atlas.getSpriteFrame(splits[1]);
+                            onComplete?.();
+                        }
+                    });
+                } else {
+                    console.error(`UUID not found for URL: ${url}`);
+                }
             });
         }
-        else {
-            Editor.error(`key's format ${this._key} is not valid...`);
-        }
     }
+
 
     /**
      * 

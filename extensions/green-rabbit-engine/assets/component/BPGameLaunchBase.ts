@@ -1,14 +1,9 @@
+import * as cc from 'cc';
 import { BPTimerManager } from "../timer/BPTimerManager";
-import { BPConst } from "../util/BPConst";
 import { BPComponentBase } from "./BPComponentBase";
+import { EDITOR } from 'cc/env';
 
-/**
- * @author Tinker
- * @date
- * @description 项目入口，初始化引擎; 默认编辑器可执行，用以同步引擎环境
- */
 
-//@BPDecorator.executeInEditMode
 export abstract class BPGameLaunchBase extends BPComponentBase {
     protected _runtimeInited: boolean = false;
 
@@ -20,25 +15,22 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
             cc.game.addPersistRootNode(this.node);
         }
 
-        if (cc.sys.isNative) {
-            jsb && jsb.Device && jsb.Device.setKeepScreenOn(true);
-        }
+        // if (cc.sys.isNative) {
+        //     jsb && jsb.device && jsb.device.setKeepScreenOn(true);
+        // }
 
-        cc.game.setFrameRate(59);
+        cc.game.setFrameRate(60);
         cc.dynamicAtlasManager.enabled = false;
-        cc.debug.setDisplayStats(false);
+        cc.setDisplayStats(false);
     }
 
-    /**
-     * ....
-     */
     protected override onLoad(): void {
-        const maxZIndex = BPConst.MaxZIndex;
-        const ndUIRoot = this.getNodeUIRoot();
-        ndUIRoot.getChildByName("ND_TopMask").zIndex = maxZIndex;
-        ndUIRoot.getChildByName("ND_BotMask").zIndex = maxZIndex;
-        ndUIRoot.getChildByName("ND_LeftMask").zIndex = maxZIndex;
-        ndUIRoot.getChildByName("ND_RightMask").zIndex = maxZIndex;
+        // const maxZIndex = BPConst.MaxZIndex;
+        // const ndUIRoot = this.getNodeUIRoot();
+        // ndUIRoot.getChildByName("ND_TopMask").zIndex = maxZIndex;
+        // ndUIRoot.getChildByName("ND_BotMask").zIndex = maxZIndex;
+        // ndUIRoot.getChildByName("ND_LeftMask").zIndex = maxZIndex;
+        // ndUIRoot.getChildByName("ND_RightMask").zIndex = maxZIndex;
 
         this._resizeCanvas();
         this._initRuntime();
@@ -52,14 +44,14 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
      * ....
      */
     private _initRuntime(): void {
-        if (CC_EDITOR) { return; }
+        if (EDITOR) { return; }
         if (this._runtimeInited == true) { return; }
         
         this._onInitRuntime();
         this._runtimeInited = true;
 
         // 监听游戏从后台切换到前台
-        cc.game.on(cc.game.EVENT_SHOW, this._onGameShow, this);
+        cc.game.on(cc.Game.EVENT_SHOW, this._onGameShow, this);
     }
 
     protected override onEnable() {
@@ -81,13 +73,13 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
         const resRatio = this._getResolutionHWRatio();
         if (winRatio - resRatio >= 0) {
             // 长屏
-            cpCanvas.fitWidth = true;
-            cpCanvas.fitHeight = false;
+            // cpCanvas.fitWidth = true;
+            // cpCanvas.fitHeight = false;
         }
         else {
             // 宽屏
-            cpCanvas.fitWidth = false;
-            cpCanvas.fitHeight = true;
+            // cpCanvas.fitWidth = false;
+            // cpCanvas.fitHeight = true;
         }
         const cpNodeUIRoot = this.getNodeUIRoot().getComponent(cc.Widget);
         cpNodeUIRoot.top = cpNodeUIRoot.bottom = 0;
@@ -98,19 +90,20 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
         const overMaxRatio = this._getWinHWRatio() - maxRatio;
         // w/h
         const minRatio = 1 / this._getResolutionHWRatio();
+        let winSize = cc.view.getFrameSize();
         const overMinRatio = 1 / this._getWinHWRatio() - minRatio;
         if (overMaxRatio > 0) {
-            const toH = overMaxRatio * 0.5 * cc.winSize.width;
+            const toH = overMaxRatio * 0.5 * winSize.width;
             cpNodeUIRoot.top = cpNodeUIRoot.bottom = toH;
         }
         else if (overMinRatio > 0) {
-            const toW = overMinRatio * 0.5 * cc.winSize.height;
+            const toW = overMinRatio * 0.5 * winSize.height;
             cpNodeUIRoot.left = cpNodeUIRoot.right = toW;
         }
 
         const safeArea = cc.sys.getSafeAreaRect();
-        const finalTop = Math.max(cpNodeUIRoot.top, safeArea.y);
-        const finalBottom = Math.max(cpNodeUIRoot.bottom, cc.winSize.height - safeArea.y - safeArea.height);
+        const finalTop = Math.max(cpNodeUIRoot.top, winSize.height - safeArea.y - safeArea.height);
+        const finalBottom = Math.max(cpNodeUIRoot.bottom, safeArea.y);
         cpNodeUIRoot.top = finalTop;
         cpNodeUIRoot.bottom = finalBottom;
     }
@@ -129,8 +122,9 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
      * ....
      */
     protected _getWinHWRatio() {
-        let ratio = cc.winSize.height >= cc.winSize.width ?
-            (cc.winSize.height / cc.winSize.width) : (cc.winSize.width / cc.winSize.height);
+        let winSize = cc.view.getFrameSize();
+        let ratio = winSize.height >= winSize.width ?
+            (winSize.height / winSize.width) : (winSize.width / winSize.height);
         return ratio;
     }
 

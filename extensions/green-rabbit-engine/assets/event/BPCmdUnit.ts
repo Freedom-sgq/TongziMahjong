@@ -1,6 +1,5 @@
 import { BPCmdCallback, BPCmdInfo } from "../data/BPConfigs";
 import { BPString } from "../util/BPString";
-import { BPEvent } from "./BPEvent";
 
 /**
  * @author

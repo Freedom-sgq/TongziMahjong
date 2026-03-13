@@ -1,6 +1,3 @@
-/**
- * 
- */
 export abstract class BPPriorityQueueElement {
     /**元素在容器中得序列，用于查找 */
     private _index: number = -1;
@@ -20,12 +17,6 @@ export abstract class BPPriorityQueueElement {
     public abstract firstThan(other: BPPriorityQueueElement): boolean;
 }
 
-
-/**
- * @author Tinker
- * @date 
- * @description 优先队列，用优先级比较抽象大小堆.
- */
 export class BPPriorityQueue<T extends BPPriorityQueueElement> {
     private _heap: Array<T>;
     private _size: number;

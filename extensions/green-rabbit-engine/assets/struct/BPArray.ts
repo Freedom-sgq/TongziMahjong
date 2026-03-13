@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date
- * @description
- */
 export class BPArray<T> {
     protected _array: Array<T>;
 
@@ -61,7 +56,7 @@ export class BPArray<T> {
      * 检查是否包含某个元素
      */
     public has(element: T): boolean {
-        return this._array.includes(element);
+        return this._array.indexOf(element) !== -1;
     }
 
     /**

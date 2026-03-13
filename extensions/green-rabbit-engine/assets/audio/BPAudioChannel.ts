@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "../util/BPLog";
 import { BPLoader } from "../res/BPLoader";
 import { BPMap } from "../struct/BPMap";
@@ -59,7 +60,7 @@ export class BPAudioChannel {
             let count = insList.length;
             if (maxInsCount != null && maxInsCount > 0 && maxInsCount <= count) {
                 const oldIns = insList[0];
-                cc.audioEngine.stop(oldIns?.getId());
+                // cc.audioEngine.stop(oldIns?.getId());
             }
 
             // 音频参数
@@ -68,16 +69,16 @@ export class BPAudioChannel {
             const pile = option?.pile ?? false;
 
             this._pauseLastFixedIns();
-            const id = cc.audioEngine.play(clip, loop, volume * this._channelVolume * this._globalVolume);
-            const ins = new BPAudioInstance(id, path, volume);
-            insList.push(ins);
-            if (pile) { this._pileInsList.push(ins); }
+            // const id = cc.audioEngine.play(clip, loop, volume * this._channelVolume * this._globalVolume);
+            // const ins = new BPAudioInstance(id, path, volume);
+            // insList.push(ins);
+            // if (pile) { this._pileInsList.push(ins); }
 
             // 结束回调
-            cc.audioEngine.setFinishCallback(id, () => {
-                this._deleteIns(path, id);
-                option?.onFinish?.(id);
-            });
+            // cc.audioEngine.setFinishCallback(id, () => {
+            //     this._deleteIns(path, id);
+            //     option?.onFinish?.(id);
+            // });
         });
     }
 
@@ -92,7 +93,7 @@ export class BPAudioChannel {
 
         insList.forEach((ins) => {
             let id = ins.getId();
-            cc.audioEngine.resume(id);
+            // cc.audioEngine.resume(id);
         });
     }
 
@@ -107,7 +108,7 @@ export class BPAudioChannel {
 
         insList.forEach((ins) => {
             const id = ins.getId();
-            cc.audioEngine.pause(id);
+            // cc.audioEngine.pause(id);
         });
     }
 
@@ -122,7 +123,7 @@ export class BPAudioChannel {
 
         insList.forEach((ins) => {
             const id = ins.getId();
-            cc.audioEngine.stop(id);
+            // cc.audioEngine.stop(id);
             this._deleteIns(path, id);
         });
         
@@ -135,7 +136,7 @@ export class BPAudioChannel {
     public stopAll() {
         this._operateAllIns((ins) => {
             const id = ins.getId();
-            cc.audioEngine.stop(id);
+            // cc.audioEngine.stop(id);
         });
     }
 
@@ -145,7 +146,7 @@ export class BPAudioChannel {
     public pauseAll() {
         this._operateAllIns((ins) => {
             const id = ins.getId();
-            cc.audioEngine.pause(id);
+            // cc.audioEngine.pause(id);
         });
     }
 
@@ -155,7 +156,7 @@ export class BPAudioChannel {
     public resumeAll() {
         this._operateAllIns((ins) => {
             const id = ins.getId();
-            cc.audioEngine.resume(id);
+            // cc.audioEngine.resume(id);
         });
     }
 
@@ -190,7 +191,7 @@ export class BPAudioChannel {
         this._operateAllIns((ins) => {
             let id = ins.getId();
             let insVolume = ins.getVolume();
-            cc.audioEngine.setVolume(id, this._globalVolume * this._channelVolume * insVolume);
+            // cc.audioEngine.setVolume(id, this._globalVolume * this._channelVolume * insVolume);
         });
     }
 
@@ -248,7 +249,7 @@ export class BPAudioChannel {
         if (id == null) {
             return;
         }
-        cc.audioEngine.resume(id);
+        // cc.audioEngine.resume(id);
     }
 
     /**
@@ -260,6 +261,6 @@ export class BPAudioChannel {
         if (id == null) {
             return;
         }
-        cc.audioEngine.pause(id);
+        // cc.audioEngine.pause(id);
     }
 }

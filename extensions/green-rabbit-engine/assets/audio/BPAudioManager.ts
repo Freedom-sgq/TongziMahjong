@@ -1,4 +1,4 @@
-import { BPAudioInfo, BPAudioConfig } from "../data/BPConfigs";
+import { BPAudioInfo } from "../data/BPConfigs";
 import { BPLog } from "../util/BPLog";
 import { BPMap } from "../struct/BPMap";
 import { BPSingletonBase } from "../struct/BPSingletonBase";
@@ -226,7 +226,7 @@ export class BPAudioManager extends BPSingletonBase {
         });
         this._channelMap.clear();
         this._audioMap.clear();
-        cc.audioEngine.uncacheAll();
+        // cc.audioEngine.uncacheAll();
     }
 
     /**

@@ -1,16 +1,12 @@
-import { BPModule, bp } from "BPEngine";
+import * as cc from 'cc';
 import { BPComponentBase } from "../BPComponentBase";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPToggleGroup } from "./BPToggleGroup";
 import {BPGUIManager} from "../../gui/BPGUIManager";
+import { DEV } from 'cc/env';
 
 const TabNodeNamePrefix = "TAB_";
 
-/**
- * @author Tinker
- * @date
- * @description Tab页签管理Page
- */
 @BPDec.ccclass
 export class BPTabPageControl extends BPComponentBase {
     static readonly OnPageCreate = "OnPageCreate";
@@ -19,13 +15,13 @@ export class BPTabPageControl extends BPComponentBase {
 
     @BPDec.property({
         type: BPToggleGroup,
-        tooltip: CC_DEV && "命名规则TAB_XXX, XXX为Page中的节点名"
+        tooltip: DEV && "命名规则TAB_XXX, XXX为Page中的节点名"
     })
     public tabContainer: BPToggleGroup = null;
 
     @BPDec.property({
         type: cc.Node,
-        tooltip: CC_DEV && "通过名字映射Page中的节点如TAB_TestView会映射到该容器下TestView节点"
+        tooltip: DEV && "通过名字映射Page中的节点如TAB_TestView会映射到该容器下TestView节点"
     })
     public pageContainer: cc.Node = null;
 

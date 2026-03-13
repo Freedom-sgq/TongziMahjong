@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPEvent } from "../event/BPEvent";
 import { BPTimerManager } from "../timer/BPTimerManager";
 import { BPAudioManager, BPCacheManager, BPCmdManager, BPDecalManager, BPGUIManager, BPLang, BPModelManager, BPNetDriver, BPStorage } from "../zone/BPExport";

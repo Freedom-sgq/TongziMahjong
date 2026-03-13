@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date
- * @description
- */
 export class BPImport {
     /**
      * @param moduleName  模块名

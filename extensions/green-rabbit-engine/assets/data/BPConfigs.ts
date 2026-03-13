@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date
- * @description
- */
 import { BPViewAnimType, BPViewBase } from "../component/controls/BPViewBase";
 import { BPSystemBase } from "../gui/delegate/BPSystemBase";
 import { BPEntityBase } from "../gui/delegate/BPEntityBase";
@@ -11,9 +6,6 @@ import { BPModelBase } from "./BPModelBase";
 import { BPClassType } from "../util/BPType";
 import { BPCmdUnit } from "../event/BPCmdUnit";
 
-/**
- * view
- */
 export interface BPViewConfig {
     viewName: string;
     viewUrl: string;
@@ -27,9 +19,6 @@ export interface BPViewConfig {
     isFoundation?: boolean;
 }
 
-/**
- * model
- */
 export interface BPModelInfo {
     dict: string;
     cls: BPClassType<BPModelBase>;
@@ -38,15 +27,8 @@ export interface BPModelInfo {
 
 export type BPModelConfig = BPModelInfo[];
 
-/**
- * cache
- */
 export type BPCacheInfo = BPClassType<BPCacheBase>;
 export type BPCacheConfig = BPCacheInfo[];
-
-/**
- * audio
- */
 export interface BPAudioInfo {
     name: string;
     channel: number;
@@ -56,17 +38,11 @@ export interface BPAudioInfo {
 
 export type BPAudioConfig = BPAudioInfo[];
 
-/**
- * 业务网络数据格式
- */
 export interface BPNetMsgConfig {
     msgCodes: { [key: string]: string | number };
     msgClses: { [key: string]: any };
 }
 
-/**
- * 指令配置
- */
 export type BPCmdCallback = (res: { next?: number }) => void;
 export type BPCmdInfo = Array<(cumdUnit: BPCmdUnit, next: BPCmdCallback, ...params: any[]) => void>;
 
@@ -74,9 +50,6 @@ export interface BPCmdConfig {
     [key: string]: BPCmdInfo;
 }
 
-/**
- * 平台接口配置
- */
 export type BPPlatformConfig = BPPlatformInfo[];
 export interface BPPlatformInfo {
     key: string;

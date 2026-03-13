@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "../../util/BPLog";
 import { IBPMsgTransfer } from "../transfer/IBPMsgTransfer";
 import { BPProtocolOptionsType, IBPSocketProtocol } from "../protocol/IBPSocketProtocol";
@@ -107,7 +108,7 @@ export abstract class BPNetBase {
     public destroy(): void {
         this.close();
         
-        this._netEvent.clear();
+        // this._netEvent.clear();
         this._netEvent = null;
         this._protocol = null;
         this._dataTransfer = null;

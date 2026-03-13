@@ -1,10 +1,7 @@
-/**
- * @author Tinker
- * @date
- * @description framework for Cocos Creator...
- **/
+import * as cc from 'cc';
 import * as BPModule from "./zone/BPExport";
 import {BPEventConfig} from "./event/BPEventConfig";
+import { DEBUG } from "cc/env";
 
 /**
  * BPEngine导出命名空间
@@ -120,7 +117,7 @@ export { BPModule, bp };
     window["BPModule"] = window["BPModule"] || BPModule;
 // }
 
-if (CC_DEBUG) {
+if (DEBUG) {
     window['bp']['decal'] = window['bp']['decal']  || bp.decal;
 }
 

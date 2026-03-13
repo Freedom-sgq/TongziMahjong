@@ -1,5 +1,5 @@
+import * as cc from 'cc';
 import { BPSet } from "../struct/BPSet";
-import { BPLog } from "../util/BPLog";
 import { BPClassType } from "../util/BPType";
 import { BPRes } from "./BPRes";
 import { BPResManager } from "./BPResManager";

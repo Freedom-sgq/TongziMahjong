@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPMap } from "../struct/BPMap";
 import { BPRes } from "./BPRes";
 

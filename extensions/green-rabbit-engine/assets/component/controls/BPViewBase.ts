@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPComponentBase } from "../BPComponentBase";
 import { IBPSystem } from "../../gui/delegate/IBPSystem";
 import { IBPEntity } from "../../gui/delegate/IBPEntity";
@@ -5,7 +6,8 @@ import { BPSystemBase } from "../../gui/delegate/BPSystemBase";
 import { BPDelegateFactory } from "../../gui/delegate/BPDelegateFactory";
 import { BPViewConfig } from "../../data/BPConfigs";
 import { BPGUIManager } from "../../gui/BPGUIManager";
-import { BPTransformScale } from "../anim/BPTransformScale";
+import { BPTransformScale } from '../anim/BPTransformScale';
+
 
 /**
  * 

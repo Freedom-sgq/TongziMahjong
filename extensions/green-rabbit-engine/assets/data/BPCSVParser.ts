@@ -5,9 +5,6 @@ import { IBPDataParser } from "./IBPDataParser";
 
 export class BPCSVParser implements IBPDataParser {
 
-    /**
-     * csv数据处理成原始数据
-     */
     parseData(text: string): Array<BPModelDataType> {
         text = BPString.removeSpace(text);
 

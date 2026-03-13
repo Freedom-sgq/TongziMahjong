@@ -1,6 +1,6 @@
-import { BPSystemBase } from '../gui/delegate/BPSystemBase';
-import { BPViewBase } from '../component/controls/BPViewBase';
+import * as cc from 'cc';
 
+import { BPSystemBase } from '../gui/delegate/BPSystemBase';
 
 const CCDecorator = cc._decorator;
 

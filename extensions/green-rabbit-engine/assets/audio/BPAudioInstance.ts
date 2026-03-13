@@ -1,8 +1,3 @@
-/**
- * @author Tinker
- * @date
- * @description 音效实例...
- */
 export class BPAudioInstance {
     /** 实例音量 */
     private _volume: number = null;

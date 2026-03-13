@@ -1,4 +1,3 @@
-import { BPLog } from "../util/BPLog";
 import { BPCSVParser } from "./BPCSVParser";
 import { BPDataBase } from "./BPDataBase";
 import { BPJsonParse } from "./BPJsonParser";

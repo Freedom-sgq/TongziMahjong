@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPMath } from "../../util/BPMath";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPComponentBase } from "../BPComponentBase";
@@ -72,7 +73,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onTouchStart(event: cc.Event.EventTouch): boolean {
+    private _onTouchStart(event: cc.EventTouch): boolean {
         this._onDragStart(event);
         this._onHoldStart(event);
         return true;
@@ -108,20 +109,20 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onDragStart(event: cc.Event.EventTouch) {
+    private _onDragStart(event: cc.EventTouch) {
         if (this.useDrag == false) { return; }
     }
 
     /** 
      * 
      */
-    private _onHoldStart(event: cc.Event.EventTouch) {
+    private _onHoldStart(event: cc.EventTouch) {
         if (this.useHold == false) { return; }
 
         if (this._isHolding == true) { return; }
 
         let location = event.getLocation();
-        this._isHolding = this.node.getBoundingBoxToWorld().contains(location);
+        this._isHolding = this.node.getComponent(cc.UITransform).getBoundingBoxToWorld().contains(location);
         if (this._isHolding == false) { return; }
 
         this.schedule(this._tickHold, 0.3);
@@ -130,7 +131,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onTouchMove(event: cc.Event.EventTouch): void {
+    private _onTouchMove(event: cc.EventTouch): void {
         this._onHoldMove(event);
         this._onDragMove(event);
     }
@@ -138,7 +139,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onHoldMove(event: cc.Event.EventTouch) {
+    private _onHoldMove(event: cc.EventTouch) {
         if (this.useHold == false) { return; }
 
         if (this._isHolding == false) { return; }
@@ -153,11 +154,11 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onDragMove(event: cc.Event.EventTouch) {
+    private _onDragMove(event: cc.EventTouch) {
         if (this.useDrag == false) { return; }
 
         let delta = event.getDelta();
-        if (this._isDragged == false && delta.len() > 0.1) {
+        if (this._isDragged == false && delta.length() > 0.1) {
             this._isDragged = true;
 
             this.node.emit(BPTouch.OnDragStart, this._touchElements);
@@ -169,8 +170,10 @@ export class BPTouch extends BPComponentBase {
                 if (!this._touchElements.ghostNode) {
                     this._touchElements.ghostNode = cc.instantiate(this.node);
                 }
-                this._touchElements.ghostNode.opacity = 150;
-                this.node.parent.addChild(this._touchElements.ghostNode, 10);
+
+                let UIOpacity = this._touchElements.ghostNode.getComponent(cc.UIOpacity) ? this._touchElements.ghostNode.getComponent(cc.UIOpacity) : this._touchElements.ghostNode.addComponent(cc.UIOpacity);
+                UIOpacity.opacity = 150;
+                this.node.parent.insertChild(this._touchElements.ghostNode, 10);
             }
             else if (this.dragType == DragType.follow) {
                 if (!this._touchElements.followNode) {
@@ -197,7 +200,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onTouchEnd(event: cc.Event.EventTouch): void {
+    private _onTouchEnd(event: cc.EventTouch): void {
         this._onHoldFinish(event);
         this._onDragFinish(event);
     }
@@ -205,7 +208,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onTouchCancel(event: cc.Event.EventTouch): void {
+    private _onTouchCancel(event: cc.EventTouch): void {
         this._onHoldFinish(event);
         this._onDragFinish(event);
     }
@@ -213,7 +216,7 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onHoldFinish(event?: cc.Event.EventTouch): void {
+    private _onHoldFinish(event?: cc.EventTouch): void {
         if (this.useHold == false) { return; }
 
         this._isHolding = false;
@@ -223,11 +226,11 @@ export class BPTouch extends BPComponentBase {
     /** 
      * 
      */
-    private _onDragFinish(event: cc.Event.EventTouch): void {
+    private _onDragFinish(event: cc.EventTouch): void {
         if (this.useDrag == false) { return; }
 
         if (this._isDragged) {
-            event.stopPropagationImmediate();
+            event.propagationImmediateStopped = true;
             this._isDragged = false;
             this._tryEnableParentScrollView(true);
 

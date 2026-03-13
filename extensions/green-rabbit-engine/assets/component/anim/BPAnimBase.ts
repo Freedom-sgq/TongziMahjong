@@ -1,5 +1,7 @@
+import * as cc from 'cc';
 import { BPComponentBase } from "../BPComponentBase";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
+import { DEV } from 'cc/env';
 
 /**
  * 缓动函数名枚举
@@ -30,7 +32,7 @@ export abstract class BPAnimBase extends BPComponentBase {
     /**
      * 效果时长(秒)
      */
-    @BPDec.property({ tooltip: CC_DEV && '效果时长(秒)' })
+    @BPDec.property({ tooltip: DEV && '效果时长(秒)' })
     public duration: number = 0.25;
 
     /**

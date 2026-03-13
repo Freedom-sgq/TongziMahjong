@@ -1,8 +1,4 @@
-/**
- * @author Tinker
- * @date
- * @description
- */
+import * as cc from 'cc';
 import { BPSingletonBase } from "../struct/BPSingletonBase";
 import { BPLog } from "../util/BPLog";
 
@@ -21,7 +17,7 @@ export class BPEvent extends BPSingletonBase {
     public fakeTouch(x: number, y: number);
     public fakeTouch(x, y?) {
         if (x instanceof cc.Node) {
-            const ps = x.convertToWorldSpaceAR(cc.v2(0, 0));
+            const ps = x.getComponent(cc.UITransform)!.convertToWorldSpaceAR(cc.v3(0, 0, 0));
             x = ps.x;
             y = ps.y;
         }
@@ -85,8 +81,8 @@ export class BPEvent extends BPSingletonBase {
      */
     public off(target: object): void;
     public off(eventName: string): void;
-    public off(eventName: string, callback: Function, target: object): void;
-    public off(eventName: string | object, callback?: Function, target?: object): void {
+    public off(eventName: string, callback: (...args: any[]) => void, target: object): void;
+    public off(eventName: string | object, callback?: (...args: any[]) => void, target?: object): void {
         if (typeof eventName == "string") {
             if (typeof callback == "function") {
                 this._eventTarget?.off(eventName, callback, target);
@@ -125,6 +121,6 @@ export class BPEvent extends BPSingletonBase {
      */
     destroy(): void {
         super.destroy();
-        this._eventTarget?.clear();
+        // this._eventTarget?.clear();
     }
 }

@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPResBase } from "./BPResBase";
 
 interface BPResInfo {
@@ -95,21 +96,18 @@ export class BPRes extends BPResBase {
         return this._uuid;
     }
 
-    /**
-     * ....
-     */
-    public getInfo(): BPResInfo {
-        let uuid = this._uuid;
-        let bundle = this._bundle;
-        let assetInfo = bundle.getAssetInfo(uuid);
+    // public getInfo(): BPResInfo {
+    //     let uuid = this._uuid;
+    //     let bundle = this._bundle;
+    //     let assetInfo = bundle.getAssetInfo(uuid);
 
-        return {
-            bundle: bundle,
-            uuid: uuid,
-            path: assetInfo.path,
-            resType: assetInfo.ctor,
-        };
-    }
+    //     return {
+    //         bundle: bundle,
+    //         uuid: uuid,
+    //         path: assetInfo.path,
+    //         resType: assetInfo.ctor,
+    //     };
+    // }
 
     /**
      * ....

@@ -1,9 +1,6 @@
 
-/**
- * @author
- * @date
- * @description
- */
+import * as cc from 'cc';
+
 export class BPRandom {
     /**
      * 随机数生成器的种子 实际是取当前时间毫秒数

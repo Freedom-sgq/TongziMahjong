@@ -1,5 +1,8 @@
+import * as cc from 'cc';
 import { BPDecorator } from "../../util/BPDecorator";
-import { BPModule, bp } from "BPEngine";
+import { DEV } from 'cc/env';
+import { bp } from '../../BPEngine';
+
 
 const BPDec = BPDecorator;
 /**
@@ -10,7 +13,7 @@ const BPDec = BPDecorator;
 @BPDec.menu("BPComponents/BPButton")
 export class BPButton extends cc.Button {
     @BPDec.property({
-        tooltip: CC_DEV && "音效"
+        tooltip: DEV && "音效"
     })
     public audioClickKey: string = "";
 

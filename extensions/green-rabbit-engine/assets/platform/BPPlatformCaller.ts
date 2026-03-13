@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPPlatformInfo } from "../data/BPConfigs";
 import { BPLog } from "../util/BPLog";
 import { BPGameSystem } from "./BPGameSystem";
@@ -47,20 +48,20 @@ export class BPPlatformCaller {
                 return null;
             }
 
-            if (cc.sys.os === cc.sys.OS_ANDROID) {
-                // android...
-                out = jsb.reflection.callStaticMethod(this._className,
-                    this._methodName,
-                    this._signature,
-                    JSON.stringify(obj),
-                );
+            if (cc.sys.os === cc.sys.OS.ANDROID) {
+                // // android...
+                // out = jsb.reflection.callStaticMethod(this._className,
+                //     this._methodName,
+                //     this._signature,
+                //     JSON.stringify(obj),
+                // );
             }
-            else if (cc.sys.os === cc.sys.OS_IOS) {
-                // ios...
-                out = jsb.reflection.callStaticMethod(this._className.split('/').pop(),//class name only
-                    this._methodName + ':',
-                    JSON.stringify(obj),
-                );
+            else if (cc.sys.os === cc.sys.OS.IOS) {
+                // // ios...
+                // out = jsb.reflection.callStaticMethod(this._className.split('/').pop(),//class name only
+                //     this._methodName + ':',
+                //     JSON.stringify(obj),
+                // );
             }
             else {
                 BPLog.error(`jsb undefined platorm: ${cc.sys.os} ...`);

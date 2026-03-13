@@ -1,7 +1,6 @@
 import { BPNetBase } from "../network/net/BPNetBase";
 import { BPNetDriver } from "../network/BPNetDriver";
 import { BPDataBase } from "./BPDataBase";
-import { BPNetEvent } from "../network/BPNetDefine";
 import { BPMap } from "../struct/BPMap";
 import { BPLog } from "../util/BPLog";
 

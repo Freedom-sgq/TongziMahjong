@@ -1,9 +1,10 @@
+import * as cc from 'cc';
 import { BPComponentBase } from "../BPComponentBase";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPDecalEventParams, BPDecalManager } from "./BPDecalManager";
 import { BPDecalUnitNotifyType } from "./BPDecalUnit";
 import { BPEvent } from "../../event/BPEvent";
-import { BPSpriteMaterial } from "../material/BPSpriteMaterial";
+import { DEV } from 'cc/env';
 
 /** 
  * 贴花节点类型
@@ -15,8 +16,6 @@ export enum DecalType {
     Node,
     // 闪烁
     Blink,
-    // 材质
-    Material,
 }
 
 /**
@@ -41,7 +40,7 @@ export class BPDecalGroup extends BPComponentBase {
     /**
      * 单元路径名
      */
-    @BPDec.property({ tooltip: CC_DEV && '路径名称, 以“.”分割, 不可重复。动态节点请不要填写，通过代码设置...' })
+    @BPDec.property({ tooltip: DEV && '路径名称, 以“.”分割, 不可重复。动态节点请不要填写，通过代码设置...' })
     public routeName: string = "";
 
     /**
@@ -74,22 +73,6 @@ export class BPDecalGroup extends BPComponentBase {
     }
     public set decalNode(node: cc.Node) {
         this._decal = node;
-    }
-
-    @BPDec.property()
-    public _decalMaterial: cc.Material = null;
-
-    @BPDec.property({
-        type: cc.Material,
-        visible() {
-            return this.decalType == DecalType.Material;
-        }
-    })
-    public get decalMaterial(): cc.Material {
-        return this._decalMaterial as cc.Material;
-    }
-    public set decalMaterial(mt: cc.Material) {
-        this._decalMaterial = mt;
     }
 
     /**
@@ -174,31 +157,10 @@ export class BPDecalGroup extends BPComponentBase {
         else if (this.decalType == DecalType.Blink) {
             // 基础变换模式
             decalNode = this.node;
-            decalNode.opacity = 255;
+            let UIOpacity = decalNode.getComponent(cc.UIOpacity) ? decalNode.getComponent(cc.UIOpacity) : decalNode.addComponent(cc.UIOpacity);
+            UIOpacity.opacity = 255;
             this._tween && this._tween.stop();
             this._tween = null;
-        }
-        else if (this.decalType == DecalType.Material) {
-            // 材质模式
-            decalNode = this.node;
-            if (this._decalMaterial) {
-                const needSwitch = (this._matIndex == 1);
-                if (needSwitch) {
-                    const cpRender = this.node.getComponent(cc.RenderComponent);
-                    const material = (this._matIndex == 0) ? this._decalMaterial : cc.Material.getBuiltinMaterial("2d-sprite");
-                    const mt = cpRender?.setMaterial(0, material);
-                    const [rect, rotated] = BPSpriteMaterial.makeUVRect(decalNode.getComponent(cc.Sprite));
-                    if (mt?.getProperty("uvRect", 0)) {
-                        mt.setProperty("uvRect", rect);
-                    }
-
-                    if (mt?.getProperty("uvRotated", 0)) {
-                        mt.setProperty("uvRotated", rotated);
-                    }
-
-                    this._matIndex ^= 1;
-                }
-            }
         }
 
         this.routeName = "";
@@ -231,7 +193,7 @@ export class BPDecalGroup extends BPComponentBase {
                 if (decalNode == null) {
                     // 没查到, 就创建
                     decalNode = cc.instantiate(this._decal) as cc.Node;
-                    decalNode.setPosition(this.pos);
+                    decalNode.setPosition(cc.v3(this.pos.x, this.pos.y));
                     decalNode.parent = this.node;
                 }
                 decalNode.name = routeName;
@@ -255,41 +217,19 @@ export class BPDecalGroup extends BPComponentBase {
         else if (this.decalType == DecalType.Blink) {
             // 基础变换模式
             decalNode = this.node;
-
+            let UIOpacity = decalNode.getComponent(cc.UIOpacity) ? decalNode.getComponent(cc.UIOpacity) : decalNode.addComponent(cc.UIOpacity);
             if (data.value > 0) {
                 if (this._tween == null) {
-                    const action = cc.tween(decalNode)
+                    const action = cc.tween(UIOpacity)
                         .to(0.75, { opacity: 80 })
                         .to(0.75, { opacity: 255 });
-                    this._tween = cc.tween(decalNode).repeatForever(action).start();
+                    this._tween = cc.tween(UIOpacity).repeatForever(action).start();
                 }
             }
             else {
-                decalNode.opacity = 255;
+                UIOpacity.opacity = 255;
                 this._tween && this._tween.stop();
                 this._tween = null;
-            }
-        }
-        else if (this.decalType == DecalType.Material) {
-            // 材质模式
-            decalNode = this.node;
-            if (this._decalMaterial) {
-                const needSwitch = (data.value > 0) !== (this._matIndex == 1);
-                if (needSwitch) {
-                    const cpRender = this.node.getComponent(cc.RenderComponent);
-                    const material = (this._matIndex == 0) ? this._decalMaterial : cc.Material.getBuiltinMaterial("2d-sprite");
-                    const mt = cpRender?.setMaterial(0, material);
-                    const [rect, rotated] = BPSpriteMaterial.makeUVRect(decalNode.getComponent(cc.Sprite));
-                    if (mt?.getProperty("uvRect", 0)) {
-                        mt.setProperty("uvRect", rect);
-                    }
-
-                    if (mt?.getProperty("uvRotated", 0)) {
-                        mt.setProperty("uvRotated", rotated);
-                    }
-
-                    this._matIndex ^= 1;
-                }
             }
         }
 

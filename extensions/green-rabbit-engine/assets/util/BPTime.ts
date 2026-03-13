@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPLog } from "./BPLog";
 
 /**

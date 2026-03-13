@@ -1,10 +1,5 @@
 type CallBackFuncType<T> = (value1: T, value2: T, set: Set<T>) => void
 
-/**
- * @author Tinker
- * @date 
- * @description
- */
 export class BPSet<T> {
     private _set: Set<T>;
 

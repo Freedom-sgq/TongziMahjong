@@ -1,12 +1,14 @@
+import * as cc from 'cc';
+import { DEV } from "cc/env";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPTransformBase } from "./BPTransformBase";
 
 @BPDec.ccclass("ScaleFromTo")
 class ScaleFromTo {
-    @BPDec.property({ tooltip: CC_DEV && '从' })
+    @BPDec.property({ tooltip: DEV && '从' })
     public from: number = 0.5;
 
-    @BPDec.property({ tooltip: CC_DEV && '至' })
+    @BPDec.property({ tooltip: DEV && '至' })
     public to: number = 1;
 }
 
@@ -17,7 +19,7 @@ class ScaleFromTo {
  */
 @BPDec.ccclass
 export class BPTransformScale extends BPTransformBase {
-    @BPDec.property({ type: ScaleFromTo, tooltip: CC_DEV && '始终' })
+    @BPDec.property({ type: ScaleFromTo, tooltip: DEV && '始终' })
     public fromTo: ScaleFromTo = new ScaleFromTo();
 
     /**

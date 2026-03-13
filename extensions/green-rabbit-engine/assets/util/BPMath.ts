@@ -1,8 +1,5 @@
-/**
- * @author
- * @date
- * @description
- */
+import * as cc from 'cc';
+
 export class BPMath {
 
     /** 
@@ -53,11 +50,12 @@ export class BPMath {
      * @returns 
      */
     public static makeNodeRect(node: cc.Node): cc.Rect {
+        let uiTransform = node.getComponent(cc.UITransform);
         let rect = cc.rect(
-            -node.width * node.anchorX,
-            -node.height * node.anchorY,
-            node.width,
-            node.height
+            -uiTransform.width * uiTransform.anchorX,
+            -uiTransform.height * uiTransform.anchorY,
+            uiTransform.width,
+            uiTransform.height
         );
 
         return rect;
@@ -71,8 +69,8 @@ export class BPMath {
      */
     public static containPos(node: cc.Node, pos: cc.Vec2): Boolean {
         let rect = BPMath.makeNodeRect(node);
-        let inNodePos = node.convertToNodeSpaceAR(pos);
-        return rect.contains(inNodePos);
+        let inNodePos = node.getComponent(cc.UITransform).convertToNodeSpaceAR(cc.v3(pos.x, pos.y));
+        return rect.contains(cc.v2(inNodePos.x, inNodePos.y));
     }
 
     /**
@@ -102,8 +100,8 @@ export class BPMath {
      *  若想获取当前节点【左下角】的局部坐标 anchorPos(node, cc.v2(0, 0))
      */
     public static anchorPos(node: cc.Node, anchor: cc.Vec2 = cc.v2(0, 0)) {
-        let anchorPoint = node.getAnchorPoint();
-        let contentSize = node.getContentSize();
+        let anchorPoint = node.getComponent(cc.UITransform).anchorPoint;
+        let contentSize = node.getComponent(cc.UITransform).contentSize;
     
         let x = (anchor.x - anchorPoint.x) * contentSize.width;
         let y = (anchor.y - anchorPoint.y) * contentSize.height;
@@ -125,8 +123,9 @@ export class BPMath {
      * 将src下局部坐标转化到dst下的局部坐标
      */
     public static posInOtherNode(src: cc.Node, dst: cc.Node, pos: cc.Vec2 = cc.v2(0, 0)) {
-        let wp = src.convertToWorldSpaceAR(pos);
-        return dst.convertToNodeSpaceAR(wp);
+        let wp = src.getComponent(cc.UITransform).convertToWorldSpaceAR(cc.v3(pos.x, pos.y, 0));
+        let localPos = dst.getComponent(cc.UITransform).convertToNodeSpaceAR(wp);
+        return cc.v2(localPos.x, localPos.y);
     }
 
     /**

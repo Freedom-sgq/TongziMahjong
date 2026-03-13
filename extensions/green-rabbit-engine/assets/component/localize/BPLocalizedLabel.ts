@@ -1,7 +1,9 @@
+import * as cc from 'cc';
 import { BPLang } from "../../util/BPLang";
 import { BPFunc } from "../../util/BPType";
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPLocalizedBase } from "./BPLocalizedBase";
+import { EDITOR } from 'cc/env';
 
 /**
  * 多语言label支持
@@ -59,7 +61,7 @@ export class BPLocalizedLabel extends BPLocalizedBase {
      * @implements BPLocalizedBase
      */
     protected _updateRenderComponentEditor(onComplete?: BPFunc<any[], any>): void {
-        if (!CC_EDITOR) { return; }
+        if (!EDITOR) { return; }
 
         this._updateRenderComponent();
         onComplete?.();
