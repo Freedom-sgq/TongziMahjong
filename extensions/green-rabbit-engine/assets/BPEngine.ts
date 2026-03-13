@@ -54,11 +54,6 @@ namespace bp {
     export const audio = BPModule.BPAudioManager.getInstance();
 
     /**
-     * cmd
-     */
-    export const cmd = BPModule.BPCmdManager.getInstance();
-
-    /**
      * decal
      */
     export const decal = BPModule.BPDecalManager.getInstance();

@@ -1,5 +1,5 @@
 import { BPSingletonBase } from '../struct/BPSingletonBase';
-import CryptoJS = require('./3rd/crypto-js.js')
+import CryptoJS from 'crypto-js';
 
 /**
  * @author Tinker

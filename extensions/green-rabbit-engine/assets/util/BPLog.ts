@@ -16,30 +16,6 @@ const TypeColor: { [key in keyof typeof LogType]: string } = {
     All: "color:gray;",
 }
 
-let makeDateString = function (): string {
-    let date = new Date();
-    let str = date.getHours().toString();
-    let _dealStr = function (s: string) {
-        return (s.length == 1 ? "0" + s : s) + ":";
-    }
-
-    let timeStr = "";
-    timeStr += _dealStr(str);
-
-    str = date.getMinutes().toString();
-    timeStr += _dealStr(str);
-
-    str = date.getSeconds().toString();
-    timeStr += _dealStr(str);
-
-    str = date.getMilliseconds().toString();
-    if (str.length == 1) str = "00" + str;
-    if (str.length == 2) str = "0" + str;
-    timeStr += str;
-
-    return timeStr;
-}
-
 let makeLogPrefix = function (type: LogType) {
     let typeKey = LogType[type];
     let title = `[${typeKey}]`;

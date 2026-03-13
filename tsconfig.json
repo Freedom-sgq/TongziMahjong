@@ -13,5 +13,10 @@
     "outDir": "temp/vscode-dist",
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "paths": {
+      "BPEngine": [
+        "extensions/green-rabbit-engine/assets/BPEngine.ts"
+      ],
+    }
   }
 }

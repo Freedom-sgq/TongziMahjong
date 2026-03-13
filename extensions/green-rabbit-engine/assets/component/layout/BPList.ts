@@ -1,8 +1,10 @@
+import * as cc from 'cc';
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPListCellBase } from "./BPListCellBase";
 import { BPComponentBase } from "../BPComponentBase";
 import { BPMath } from "../../util/BPMath";
 import { BPTransformScale } from "../anim/BPTransformScale";
+import { DEV } from 'cc/env';
 
 /** 
  * Cell类型 
@@ -138,7 +140,7 @@ export class BPList extends BPComponentBase {
 
     @BPDec.property({
         type: cc.Enum(LayoutDirection),
-        tooltip: CC_DEV && "Normal: T2B, L2R, WidthFixed; Special: B2T, R2L, HeightFixed;"
+        tooltip: DEV && "Normal: T2B, L2R, WidthFixed; Special: B2T, R2L, HeightFixed;"
     })
     public get direction(): LayoutDirection {
         return this._direction;
@@ -158,31 +160,31 @@ export class BPList extends BPComponentBase {
     /** 
      * 外边距
      */
-    @BPDec.property({ tooltip: CC_DEV && "外边距(水平, 垂直)" })
+    @BPDec.property({ tooltip: DEV && "外边距(水平, 垂直)" })
     public margin = new cc.Vec2(0.0, 0.0);
 
     /** 
      * 间隔
      */
-    @BPDec.property({ tooltip: CC_DEV && "间隔(水平, 垂直)" })
+    @BPDec.property({ tooltip: DEV && "间隔(水平, 垂直)" })
     public spacing = new cc.Vec2(0.0, 0.0);
 
     /**
      * 格子缩放
      */
-    @BPDec.property({ tooltip: CC_DEV && "格子缩放" })
+    @BPDec.property({ tooltip: DEV && "格子缩放" })
     public cellScale = 1;
 
     /**
  * 格子缩放
  */
-    @BPDec.property({ tooltip: CC_DEV && "Cell是否播放缩放动画" })
+    @BPDec.property({ tooltip: DEV && "Cell是否播放缩放动画" })
     public useCellAnim = false;
 
     /**
      * 
      */
-    @BPDec.property({ tooltip: CC_DEV && "是否默认填充满", visible() { return this._mode == LayoutMode.Grid; } })
+    @BPDec.property({ tooltip: DEV && "是否默认填充满", visible() { return this._mode == LayoutMode.Grid; } })
     public usePreFilled = false;
 
     @BPDec.property({ type: cc.Node })
@@ -368,7 +370,7 @@ export class BPList extends BPComponentBase {
             const cell = this._spawnedCells[i];
             cc.tween(cell)
                 .delay(i * halfTime)
-                .to(halfTime, { scale: 1.1 })
+                .to(halfTime, { scale: cc.v3(1.1, 1.1) })
                 .call(() => {
                     let cpCell = cell.getComponent(BPListCellBase);
                     if (cpCell) {
@@ -376,7 +378,7 @@ export class BPList extends BPComponentBase {
                         this.node.emit(BPList.OnCellUpdate, cpCell, i);
                     }
                 })
-                .to(halfTime, { scale: 1.0 })
+                .to(halfTime, { scale: cc.v3(1.0, 1.0) })
                 .call(() => {
                     complet++;
                     if (complet >= this._spawnedCells.length) {
@@ -421,13 +423,13 @@ export class BPList extends BPComponentBase {
             let row: number = 0;
             let col: number = 0;
             if (this.direction == LayoutDirection.Normal) {
-                let per = (this._content.width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
+                let per = (this._content.getComponent(cc.UITransform).width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
                 per = Math.max(Math.floor(per), 1);
                 row = Math.ceil((this._viewRect.height - 2 * this.margin.y) / (targetSize.height + this.spacing.y));
                 count = row * per;
             }
             else {
-                let per = (this._content.height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
+                let per = (this._content.getComponent(cc.UITransform).height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
                 per = Math.max(Math.floor(per), 1);
                 col = Math.ceil((this._viewRect.width - 2 * this.margin.x) / (targetSize.width + this.spacing.x));
                 count = col * per;
@@ -443,7 +445,7 @@ export class BPList extends BPComponentBase {
     private _updateSpawnedCells(targetIndex: number, sign: 1 | -1) {
         if (this._dataCount == 0) { return; }
 
-        let contentAnchor = this._content.getAnchorPoint();
+        let contentAnchor = this._content.getComponent(cc.UITransform).anchorPoint;
         let base = this._direction == LayoutDirection.Normal ? 1 : 0;
         let targetSize = this._mode == LayoutMode.Grid ? this._getCellSrcOriginSize() : this._calcCellSize(targetIndex);
 
@@ -465,7 +467,7 @@ export class BPList extends BPComponentBase {
 
         if (this._mode == LayoutMode.Grid) {
             if (this._direction == LayoutDirection.Normal) {
-                let per = (this._content.width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
+                let per = (this._content.getComponent(cc.UITransform).width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
                 per = Math.max(Math.floor(per), 1);
 
                 this._dealWithSpawnedCells((cell, cellComp, dataIndex) => {
@@ -482,7 +484,7 @@ export class BPList extends BPComponentBase {
                 });
             }
             else if (this._direction == LayoutDirection.Special) {
-                let per = (this._content.height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
+                let per = (this._content.getComponent(cc.UITransform).height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
                 per = Math.max(Math.floor(per), 1);
 
                 this._dealWithSpawnedCells((cell, cellComp, dataIndex) => {
@@ -557,7 +559,7 @@ export class BPList extends BPComponentBase {
      */
     protected override onLoad(): void {
         this._init();
-        this._content?.on(cc.Node.EventType.POSITION_CHANGED, this._onContentPosChanged, this);
+        this._content?.on(cc.Node.EventType.TRANSFORM_CHANGED, this._onContentPosChanged, this);
     }
 
     /**
@@ -571,7 +573,7 @@ export class BPList extends BPComponentBase {
      * ...
      */
     protected override onDestroy(): void {
-        this._content?.off(cc.Node.EventType.POSITION_CHANGED, this._onContentPosChanged, this);
+        this._content?.off(cc.Node.EventType.TRANSFORM_CHANGED, this._onContentPosChanged, this);
     }
 
     private _onScrollToBottom() {
@@ -633,10 +635,10 @@ export class BPList extends BPComponentBase {
             }
 
             // 真实高度
-            this._content.height = final;
+            this._content.getComponent(cc.UITransform).height = final;
 
             if (this.direction == LayoutDirection.Special) {
-                if (this._content.height < this._getViewNode().height) {
+                if (this._content.getComponent(cc.UITransform).height < this._getViewNode().getComponent(cc.UITransform).height) {
                     this._scrollView.scrollToBottom();
                 }
             }
@@ -650,10 +652,10 @@ export class BPList extends BPComponentBase {
             }
 
             // 真实宽度
-            this._content.width = final;
+            this._content.getComponent(cc.UITransform).width = final;
 
             if (this.direction == LayoutDirection.Special) {
-                if (this._content.width < this._getViewNode().width) {
+                if (this._content.getComponent(cc.UITransform).width < this._getViewNode().getComponent(cc.UITransform).width) {
                     this._scrollView.scrollToRight();
                 }
             }
@@ -662,18 +664,18 @@ export class BPList extends BPComponentBase {
             // grid 暂不处理动态变化的宽高
             let size = this._getCellSrcOriginSize();
             if (this.direction == LayoutDirection.Normal) {
-                let per = (this._content.width - 2 * this.margin.x + this.spacing.x) / (size.width + this.spacing.x);
+                let per = (this._content.getComponent(cc.UITransform).width - 2 * this.margin.x + this.spacing.x) / (size.width + this.spacing.x);
                 per = Math.max(Math.floor(per), 1);
 
                 let row = Math.ceil(this._dataCount / per);
-                this._content.height = this.margin.y * 2 + (row - 1) * this.spacing.y + row * size.height;
+                this._content.getComponent(cc.UITransform).height = this.margin.y * 2 + (row - 1) * this.spacing.y + row * size.height;
             }
             else {
-                let per = (this._content.height - 2 * this.margin.y + this.spacing.y) / (size.height + this.spacing.y);
+                let per = (this._content.getComponent(cc.UITransform).height - 2 * this.margin.y + this.spacing.y) / (size.height + this.spacing.y);
                 per = Math.max(Math.floor(per), 1);
 
                 let col = Math.ceil(this._dataCount / per);
-                this._content.width = this.margin.x * 2 + (col - 1) * this.spacing.x + col * size.width;
+                this._content.getComponent(cc.UITransform).width = this.margin.x * 2 + (col - 1) * this.spacing.x + col * size.width;
             }
         }
     }
@@ -780,7 +782,7 @@ export class BPList extends BPComponentBase {
 
                 if (this.direction == LayoutDirection.Normal) {
                     // 固定宽度，高度变化，自左向右，自上而下延展
-                    let per = (this._content.width - 2 * this.margin.x + this.spacing.x) / (size.width + this.spacing.x);
+                    let per = (this._content.getComponent(cc.UITransform).width - 2 * this.margin.x + this.spacing.x) / (size.width + this.spacing.x);
                     per = Math.max(Math.floor(per), 1);
 
                     row = Math.floor(i / per);
@@ -809,7 +811,7 @@ export class BPList extends BPComponentBase {
                 }
                 else {
                     // 固定高度，宽度变化，自上而下，自左向右延展
-                    let per = (this._content.height - 2 * this.margin.y + this.spacing.y) / (size.height + this.spacing.y);
+                    let per = (this._content.getComponent(cc.UITransform).height - 2 * this.margin.y + this.spacing.y) / (size.height + this.spacing.y);
                     per = Math.max(Math.floor(per), 1);
 
                     col = Math.floor(i / per);
@@ -862,11 +864,12 @@ export class BPList extends BPComponentBase {
             //BPLog.engine("新增: ", dataIndex);
         }
 
-        cell.setContentSize(size);
-        cell.opacity = 255;
+        cell.getComponent(cc.UITransform).setContentSize(size);
+        let UIOpacity = cell.getComponent(cc.UIOpacity) ? cell.getComponent(cc.UIOpacity) : cell.addComponent(cc.UIOpacity);
+        UIOpacity.opacity = 255;
 
-        let xPos = baseX == null ? 0 : baseX + cell.anchorX * size.width;
-        let yPos = baseY == null ? 0 : baseY + cell.anchorY * size.height;
+        let xPos = baseX == null ? 0 : baseX + cell.getComponent(cc.UITransform).anchorX * size.width;
+        let yPos = baseY == null ? 0 : baseY + cell.getComponent(cc.UITransform).anchorY * size.height;
         cell.setPosition(cc.v3(xPos, yPos));
 
         let cpCell = cell.getComponent(BPListCellBase);
@@ -881,7 +884,8 @@ export class BPList extends BPComponentBase {
      */
     private _addCell(index: number): cc.Node {
         let cell = cc.instantiate(this._cellSrc) as cc.Node;
-        cell.opacity = 255;
+        let UIOpacity = cell.getComponent(cc.UIOpacity) ? cell.getComponent(cc.UIOpacity) : cell.addComponent(cc.UIOpacity);
+        UIOpacity.opacity = 255;
 
         this._spawnedCells.push(cell);
         const cpCell = cell.getComponent(BPListCellBase)
@@ -925,7 +929,7 @@ export class BPList extends BPComponentBase {
 
         for (let i = 0; i < this._spawnedCells.length; ++i) {
             let cell = this._spawnedCells[i];
-            let box = cell.getBoundingBox();
+            let box = cell.getComponent(cc.UITransform).getBoundingBox();
 
             let bCheck = false;
             if (this.mode == LayoutMode.Vertical) {
@@ -943,6 +947,7 @@ export class BPList extends BPComponentBase {
                     box.yMax + this._content.y >= this._viewRect.yMin;
             }
 
+            let UIOpacity = cell.getComponent(cc.UIOpacity) ? cell.getComponent(cc.UIOpacity) : cell.addComponent(cc.UIOpacity);
             if (bCheck == true) {
                 let cellComp = cell.getComponent(BPListCellBase);
                 let dataIndex = cellComp.index;
@@ -953,11 +958,11 @@ export class BPList extends BPComponentBase {
                 min = Math.min(dataIndex, min);
 
                 inners.push(i);
-                cell.opacity = 255;
+                UIOpacity.opacity = 255;
             }
             else {
                 outers.push(i);
-                cell.opacity = 0;
+                UIOpacity.opacity = 0;
             }
         }
 
@@ -968,12 +973,9 @@ export class BPList extends BPComponentBase {
      * ...
      */
     private _resetSpawnedCell(cell: cc.Node): void {
-        //let contentRect = BPMath.makeNodeRect(this._content);
-        //let anchorPoint = cell.getAnchorPoint();
-        //cell.setPosition(contentRect.xMin - (anchorPoint.x * cell.width) - 1,contentRect.yMax + (anchorPoint.y) * cell.height + 1);
-        //cell.opacity = 0;
         cell.setPosition(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
-        cell.opacity = 0;
+        let UIOpacity = cell.getComponent(cc.UIOpacity) ? cell.getComponent(cc.UIOpacity) : cell.addComponent(cc.UIOpacity);
+        UIOpacity.opacity = 0;
     }
 
     /**
@@ -1005,7 +1007,7 @@ export class BPList extends BPComponentBase {
                 offset.y = total - (aligment) * this._viewRect.height + (aligment) * targetSize.height;
             }
             else {
-                offset.y = - total - (1 - aligment) * this._viewRect.height - (aligment) * targetSize.height + this._content.height;
+                offset.y = - total - (1 - aligment) * this._viewRect.height - (aligment) * targetSize.height + this._content.getComponent(cc.UITransform).height;
             }
         }
         else if (this._mode == LayoutMode.Horizontal) {
@@ -1020,7 +1022,7 @@ export class BPList extends BPComponentBase {
                 offset.x = total - (aligment) * this._viewRect.width + (aligment) * targetSize.width;
             }
             else {
-                offset.x = - total - (1 - aligment) * this._viewRect.width - (aligment) * targetSize.width + this._content.width;
+                offset.x = - total - (1 - aligment) * this._viewRect.width - (aligment) * targetSize.width + this._content.getComponent(cc.UITransform).width;
             }
             offset.y = this._content.y;
         }
@@ -1030,7 +1032,7 @@ export class BPList extends BPComponentBase {
             let row: number = 0;
             let col: number = 0;
             if (this.direction == LayoutDirection.Normal) {
-                let per = (this._content.width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
+                let per = (this._content.getComponent(cc.UITransform).width - 2 * this.margin.x + this.spacing.x) / (targetSize.width + this.spacing.x);
                 per = Math.max(Math.floor(per), 1);
 
                 row = Math.floor(index / per);
@@ -1040,7 +1042,7 @@ export class BPList extends BPComponentBase {
                 offset.y = totalY - (aligment) * this._viewRect.height + (aligment) * targetSize.height;
             }
             else {
-                let per = (this._content.height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
+                let per = (this._content.getComponent(cc.UITransform).height - 2 * this.margin.y + this.spacing.y) / (targetSize.height + this.spacing.y);
                 per = Math.max(Math.floor(per), 1);
 
                 col = Math.floor(index / per);
@@ -1058,13 +1060,13 @@ export class BPList extends BPComponentBase {
      * ....
      */
     private _getCellSrcOriginSize(): cc.Size {
-        let outSize = cc.Size.ZERO;
+        let outSize = new cc.Size(cc.Size.ZERO);
         let contentSize: cc.Size = null;
         if (this._cellSrc instanceof cc.Prefab) {
-            contentSize = this._cellSrc.data.getContentSize();
+            contentSize = this._cellSrc.data.getComponent(cc.UITransform).getContentSize();
         }
         else if (this._cellSrc instanceof cc.Node) {
-            contentSize = this._cellSrc.getContentSize();
+            contentSize = this._cellSrc.getComponent(cc.UITransform).contentSize;
         }
 
         if (contentSize) {

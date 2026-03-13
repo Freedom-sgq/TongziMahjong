@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "BPEngine": "./extensions/green-rabbit-engine/assets/BPEngine.ts"
+    }
+}

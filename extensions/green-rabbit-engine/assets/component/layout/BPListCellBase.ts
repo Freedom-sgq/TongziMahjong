@@ -1,9 +1,6 @@
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPComponentBase } from "../BPComponentBase";
 
-/**
- * 
- */
 @BPDec.ccclass
 @BPDec.disallowMultiple
 export abstract class BPListCellBase<T> extends BPComponentBase {

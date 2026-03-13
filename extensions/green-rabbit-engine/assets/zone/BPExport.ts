@@ -14,9 +14,7 @@ export * from "../component/BPComponentBase";
 export * from "../component/controls/BPView";
 export * from "../component/controls/BPViewBase";
 export * from "../component/layout/BPList";
-export * from "../component/layout/BPFixedList";
 export * from "../component/layout/BPListCellBase";
-export * from "../component/layout/BPListLite";
 export * from "../component/controls/BPTouch";
 export * from "../component/controls/BPTabPageControl";
 export * from "../component/localize/BPLocalizedBase";
@@ -24,17 +22,10 @@ export * from "../component/localize/BPLocalizedLabel";
 export * from "../component/localize/BPLocalizedSprite";
 export * from "../component/controls/BPToggleGroup";
 export * from "../component/anim/BPTransformScale";
-export * from "../component/anim/BPTransformFade";
-export * from "../component/anim/BPCounterLabel";
-export * from "../component/anim/BPCounterProgressBar";
 export * from "../component/decal/BPDecalManager"
-export * from "../component/toast/BPToast"
 export * from "../component/buttons/BPButton"
 export * from "../component/buttons/BPToggle"
 export * from "../component/decal/BPDecalGroup"
-export * from "../component/layout/BPLoop"
-export * from "../component/material/BPGradiantMaterial"
-export * from "../component/layout/BPProgress"
 export * from "../component/render/BPGradiantComponent"
 
 /**
