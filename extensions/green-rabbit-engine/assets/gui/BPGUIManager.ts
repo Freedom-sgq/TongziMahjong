@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPView } from "../component/controls/BPView";
 import { BPOpenViewOp, BPViewBase } from "../component/controls/BPViewBase";
 import { BPViewConfig } from "../data/BPConfigs";
@@ -106,8 +107,7 @@ export class BPGUIManager extends BPSingletonBase {
             compView.setup(viewInsName, config, op);
 
             const parent = op.parentNode ?? this.getCanvas().getComponent(BPGameLaunchBase).getNodeUIRoot();
-            const zIndex = op.zIndex ?? 0;
-            parent.addChild(nodeBase, zIndex);
+            parent.addChild(nodeBase);
             BPEvent.getInstance().emit(BPEventConfig.OnViewOpen, viewInsName);
             resolve(compView);
         });

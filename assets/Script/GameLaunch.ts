@@ -16,7 +16,7 @@ export default class GameLaunch extends BPModule.BPGameLaunchBase {
      */
     protected onLoad(): void {
         super.onLoad();
-        bp.log.logic("GameLaunch onLoad");
+        bp.log.logic("游戏启用成功");
     }
 
     /**

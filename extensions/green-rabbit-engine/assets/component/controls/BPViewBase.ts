@@ -24,7 +24,6 @@ export interface BPOpenViewOp {
     params?: Record<string, any> & { jumpParams?: string },
     parentNode?: cc.Node,
     parentView?: BPViewBase,
-    zIndex?: number,
     noContainerBlock?: boolean,
     onLoad?: OnLoadCallback,
     onDestroy?: OnDestroyCallback,

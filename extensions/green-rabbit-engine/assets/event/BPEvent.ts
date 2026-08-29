@@ -28,9 +28,13 @@ export class BPEvent extends BPSingletonBase {
         if (cc.sys.isBrowser) {
             rect = inputManager._canvasBoundingRect;
         } else {
-            rect = cc.view.getFrameSize();
-            rect.left = 0;
-            rect.top = 0;
+            const windowSize = cc.screen.windowSize;
+            rect = {
+                left: 0,
+                top: 0,
+                width: windowSize.width,
+                height: windowSize.height,
+            };
         }
 
         //将x,y从Creator世界坐标转换到设备窗口坐标

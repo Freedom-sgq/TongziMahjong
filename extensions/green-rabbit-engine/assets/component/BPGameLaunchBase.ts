@@ -25,13 +25,6 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
     }
 
     protected override onLoad(): void {
-        // const maxZIndex = BPConst.MaxZIndex;
-        // const ndUIRoot = this.getNodeUIRoot();
-        // ndUIRoot.getChildByName("ND_TopMask").zIndex = maxZIndex;
-        // ndUIRoot.getChildByName("ND_BotMask").zIndex = maxZIndex;
-        // ndUIRoot.getChildByName("ND_LeftMask").zIndex = maxZIndex;
-        // ndUIRoot.getChildByName("ND_RightMask").zIndex = maxZIndex;
-
         this._resizeCanvas();
         this._initRuntime();
     }
@@ -90,7 +83,7 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
         const overMaxRatio = this._getWinHWRatio() - maxRatio;
         // w/h
         const minRatio = 1 / this._getResolutionHWRatio();
-        let winSize = cc.view.getFrameSize();
+        const winSize = cc.screen.windowSize;
         const overMinRatio = 1 / this._getWinHWRatio() - minRatio;
         if (overMaxRatio > 0) {
             const toH = overMaxRatio * 0.5 * winSize.width;
@@ -122,7 +115,7 @@ export abstract class BPGameLaunchBase extends BPComponentBase {
      * ....
      */
     protected _getWinHWRatio() {
-        let winSize = cc.view.getFrameSize();
+        const winSize = cc.screen.windowSize;
         let ratio = winSize.height >= winSize.width ?
             (winSize.height / winSize.width) : (winSize.width / winSize.height);
         return ratio;

@@ -91,7 +91,6 @@
 //         let node = profiler.getChildByName('BACKGROUND');
 //         if (!node) {
 //             node = new cc.Node('BACKGROUND');
-//             profiler.addChild(node, cc.macro.MIN_ZINDEX);
 //             node.setContentSize(profiler.getBoundingBoxToWorld());
 //             node.setPosition(0, 0);
 //         }
@@ -464,7 +463,6 @@
 //         const winSize = cc.winSize;
 //         let panel = new cc.Node();
 //         panel.name = panelName;
-//         panel.zIndex = BPConst.UIMaxZIndex;
 //         panel.setPosition(winSize.width * 0.5, winSize.height * 0.5);
 //         panel.setContentSize(winSize);
 

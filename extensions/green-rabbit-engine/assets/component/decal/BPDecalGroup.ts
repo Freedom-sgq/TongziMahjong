@@ -46,7 +46,6 @@ export class BPDecalGroup extends BPComponentBase {
     /**
      *  贴花预制体或者直接节点
      */
-    @BPDec.property()
     public _decal: cc.Prefab | cc.Node = null;
 
     @BPDec.property({

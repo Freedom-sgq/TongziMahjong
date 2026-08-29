@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 import { BPComponentBase } from "../BPComponentBase";
 
@@ -14,7 +15,7 @@ export class BPGradiantComponent extends BPComponentBase {
     @BPDec.property
     private _leftBottom: cc.Color = cc.Color.WHITE;
 
-    @BPDec.property()
+    @BPDec.property({ type: cc.Color })
     public get leftBottom(): cc.Color {
         return this._leftBottom;
     }
@@ -28,7 +29,7 @@ export class BPGradiantComponent extends BPComponentBase {
     @BPDec.property
     private _rightBottom: cc.Color = cc.Color.WHITE;
 
-    @BPDec.property()
+    @BPDec.property({ type: cc.Color })
     public get rightBottom(): cc.Color {
         return this._rightBottom;
     }
@@ -42,7 +43,7 @@ export class BPGradiantComponent extends BPComponentBase {
     @BPDec.property
     private _leftTop: cc.Color = cc.Color.WHITE;
 
-    @BPDec.property()
+    @BPDec.property({ type: cc.Color })
     public get leftTop(): cc.Color {
         return this._leftTop;
     }
@@ -56,7 +57,7 @@ export class BPGradiantComponent extends BPComponentBase {
     @BPDec.property
     private _rightTop: cc.Color = cc.Color.WHITE;
 
-    @BPDec.property()
+    @BPDec.property({ type: cc.Color })
     public get rightTop(): cc.Color {
         return this._rightTop;
     }
@@ -75,7 +76,7 @@ export class BPGradiantComponent extends BPComponentBase {
     }
 
     private _hackUpdateColor(): void {
-        const compRender = this.getComponent(cc.RenderComponent);
+        const compRender = this.getComponent(cc.UIRenderer);
         if (!compRender) return;
 
         const _assembler = compRender['_assembler'];

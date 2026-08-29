@@ -1,3 +1,4 @@
+import * as cc from 'cc';
 import { BPDecorator as BPDec } from "../../util/BPDecorator";
 
 /**
@@ -6,6 +7,6 @@ import { BPDecorator as BPDec } from "../../util/BPDecorator";
  * @description 自定义渲染组件基类
  */
 @BPDec.ccclass
-export abstract class BPRenderComponentBase extends cc.RenderComponent {
+export abstract class BPRenderComponentBase extends cc.UIRenderer {
 
 }

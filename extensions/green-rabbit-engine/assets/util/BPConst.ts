@@ -6,12 +6,6 @@ const Numeric = {
 
     // 最大值
     MaxInt: Number.MAX_SAFE_INTEGER,
-
-    // // 最大zIndex
-    // MaxZIndex: cc.macro.MAX_ZINDEX,
-    // UIMaxZIndex: cc.macro.MAX_ZINDEX - 10,
-    // // 最小zIndex
-    // MinZIndex: cc.macro.MIN_ZINDEX,
 }
 
 //
@@ -20,5 +14,4 @@ const Color = {
 }
 
 export const BPConst = Object.assign(Numeric, Color)
-
 
